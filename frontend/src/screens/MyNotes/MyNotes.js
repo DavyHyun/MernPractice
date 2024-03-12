@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, Badge, Button, Card } from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
-import notes from "../../data/notes";
 // import ReactMarkdown from "react-markdown";
 
 // import { useDispatch, useSelector } from "react-redux";
@@ -49,6 +48,19 @@ function MyNotes() {
   //     successCreate,
   //     successUpdate,
   //   ]);
+  const [notes, setNotes] = useState([]);
+
+  const fetchNotes = async () => {
+    fetch("http://localhost:3001/api/notes")
+      .then((r) => r.json())
+      .then((data) => {
+        setNotes(data);
+      });
+  };
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -64,7 +76,7 @@ function MyNotes() {
         </Button>
       </Link>
       {notes.map((note) => (
-        <Accordion defaultActiveKey={["0"]}>
+        <Accordion defaultActiveKey={["0"]} key={note._id}>
           <Accordion.Item eventkey="0">
             <Card style={{ margin: 10 }}>
               <Card.Header style={{ display: "flex" }}>
