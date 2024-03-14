@@ -7,11 +7,12 @@ function LandingPage() {
   //   const userLogin = useSelector((state) => state.userLogin);
   //   const { userInfo } = userLogin;
 
-  //   useEffect(() => {
-  //     if (userInfo) {
-  //       history.push("/mynotes");
-  //     }
-  //   }, [history, userInfo]);
+  // useEffect(() => {
+  //   const userInfo = localStorage.getItem("userInfo");
+  //   if (userInfo) {
+  //     navigate("/mynotes");
+  //   }
+  // }, [history]);
 
   return (
     <div className="main">
