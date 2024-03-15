@@ -7,55 +7,29 @@ import { useNavigate } from "react-router-dom";
 // import { login } from "../../actions/userActions";
 import MainScreen from "../../components/MainScreen";
 import "./LoginPage.css";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../actions/userActions";
 
 function LoginScreen({ history }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  //   const { loading, error, userInfo } = userLogin;
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/mynotes");
+    }
+  }, [userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    try {
-      const config = {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      };
-
-      setLoading(true);
-
-      const response = await fetch(
-        "http://localhost:3001/api/users/login",
-        config
-      );
-
-      // Check if the response status is not in the 200-299 range
-      if (!response.ok) {
-        const errorData = await response.json(); // Assuming server responds with JSON containing the error
-        throw new Error(errorData.message || "Something went wrong");
-      }
-
-      const data = await response.json();
-
-      console.log(JSON.stringify(data));
-      localStorage.setItem("userInfo", JSON.stringify(data));
-    } catch (error) {
-      // This will now correctly handle both network errors and bad HTTP responses
-      console.error("ERROR:", error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
+    dispatch(login(email, password));
   };
 
   return (
