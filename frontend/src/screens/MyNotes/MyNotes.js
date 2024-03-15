@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Accordion, Badge, Button, Card } from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import ReactMarkdown from "react-markdown";
 
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { deleteNoteAction, listNotes } from "../../actions/notesActions";
 // import Loading from "../../components/Loading";
 // import ErrorMessage from "../../components/ErrorMessage";
 
 function MyNotes() {
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const nav = useNavigate();
 
   //   const noteList = useSelector((state) => state.noteList);
   //   const { loading, error, notes } = noteList;
@@ -19,8 +20,8 @@ function MyNotes() {
   //   //   note.title.toLowerCase().includes(search.toLowerCase())
   //   // );
 
-  //   const userLogin = useSelector((state) => state.userLogin);
-  //   const { userInfo } = userLogin;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   //   const noteDelete = useSelector((state) => state.noteDelete);
   //   const {
@@ -35,19 +36,12 @@ function MyNotes() {
   //   const noteUpdate = useSelector((state) => state.noteUpdate);
   //   const { success: successUpdate } = noteUpdate;
 
-  //   useEffect(() => {
-  //     dispatch(listNotes());
-  //     if (!userInfo) {
-  //       history.push("/");
-  //     }
-  //   }, [
-  //     dispatch,
-  //     history,
-  //     userInfo,
-  //     successDelete,
-  //     successCreate,
-  //     successUpdate,
-  //   ]);
+  useEffect(() => {
+    // dispatch(listNotes());
+    if (!userInfo) {
+      nav("/");
+    }
+  }, [dispatch, userInfo]);
   const [notes, setNotes] = useState([]);
 
   const fetchNotes = async () => {
