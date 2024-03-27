@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 import { Button, Container, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./LandingPage.css";
 
 function LandingPage() {
-  //   const userLogin = useSelector((state) => state.userLogin);
-  //   const { userInfo } = userLogin;
+  // const userLogin = useSelector((state) => state.userLogin);
+  // const { userInfo } = userLogin;
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const userInfo = localStorage.getItem("userInfo");
-  //   if (userInfo) {
-  //     navigate("/mynotes");
-  //   }
-  // }, [history]);
+  useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      navigate("/mynotes");
+    }
+  }, []);
 
   return (
     <div className="main">
